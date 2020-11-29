@@ -9,14 +9,14 @@ import java.util.Stack;
 public class Deck {
 
     public static final String PLEASE_ENTER_A_VALID_CARD_INDEX_0 = "Please enter a valid card index 0 -> ";
-    private Stack<Card> cards;
+    private Stack<Card> cards = new Stack<>();
 
     public Deck() {
         this.create();
     }
 
     public void create() {
-        cards = new Stack<>();
+        cards.clear();
         for (Suit suit : Suit.values()) {
             for (Value value : Value.values()) {
                 cards.add(Card.builder()
@@ -26,9 +26,5 @@ public class Deck {
             }
         }
         Collections.shuffle(cards);
-    }
-
-    public Card popCard() {
-        return cards.pop();
     }
 }

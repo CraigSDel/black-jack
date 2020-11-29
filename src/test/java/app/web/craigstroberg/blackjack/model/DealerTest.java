@@ -2,12 +2,25 @@ package app.web.craigstroberg.blackjack.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class PlayerTest {
+public class DealerTest {
+
+    @Test
+    void handOutCards() {
+        Dealer dealer = new Dealer();
+        List<Player> players = new ArrayList<>();
+        players.add(Player.builder().build());
+        dealer.handOutCards(players);
+        assertNotNull(dealer);
+        assertEquals(2, players.get(0).getCards().size());
+        assertEquals(2, dealer.getDealersCards().size());
+    }
 
     @Test
     void calculateCardsValueWhenAPlayerHasJackAndANine() {
@@ -16,9 +29,9 @@ class PlayerTest {
         cards.add(Card.builder().suit(Suit.HEARTS).value(Value.NINE).build());
         Player player = Player.builder()
                 .cards(cards)
-                .playerType(PlayerType.DEALER)
+                .name("Jan")
                 .build();
-        Integer actual = player.calculateCardsValue();
+        Integer actual = new Dealer().calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(19, actual);
     }
@@ -31,9 +44,9 @@ class PlayerTest {
         cards.add(Card.builder().suit(Suit.DIAMONDS).value(Value.ACE).build());
         Player player = Player.builder()
                 .cards(cards)
-                .playerType(PlayerType.PLAYER)
+                .name("Lemmy")
                 .build();
-        Integer actual = player.calculateCardsValue();
+        Integer actual = new Dealer().calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(19, actual);
     }
@@ -46,9 +59,9 @@ class PlayerTest {
         cards.add(Card.builder().suit(Suit.CLUBS).value(Value.FOUR).build());
         Player player = Player.builder()
                 .cards(cards)
-                .playerType(PlayerType.PLAYER)
+                .name("Andrew")
                 .build();
-        Integer actual = player.calculateCardsValue();
+        Integer actual = new Dealer().calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(18, actual);
     }
@@ -63,9 +76,9 @@ class PlayerTest {
         cards.add(Card.builder().suit(Suit.CLUBS).value(Value.FIVE).build());
         Player player = Player.builder()
                 .cards(cards)
-                .playerType(PlayerType.PLAYER)
+                .name("Billy")
                 .build();
-        Integer actual = player.calculateCardsValue();
+        Integer actual = new Dealer().calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(15, actual);
     }
@@ -78,9 +91,9 @@ class PlayerTest {
         cards.add(Card.builder().suit(Suit.DIAMONDS).value(Value.NINE).build());
         Player player = Player.builder()
                 .cards(cards)
-                .playerType(PlayerType.PLAYER)
+                .name("Carla")
                 .build();
-        Integer actual = player.calculateCardsValue();
+        Integer actual = new Dealer().calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(25, actual);
     }

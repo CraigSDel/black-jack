@@ -5,12 +5,16 @@ import java.util.List;
 
 public class BlackJack21 {
 
-    private Deck deck;
+    public static final String TOO_MANY_PLAYERS = "There are too many players as each player will not be able to get two cards each";
+    private Dealer dealer;
     private List<Player> players;
 
     private void play(int numberOfPlayers) {
-        deck = new Deck();
+        if (25 < numberOfPlayers) {
+            throw new BlackJackException(TOO_MANY_PLAYERS);
+        }
         players = new ArrayList<>(numberOfPlayers);
+
     }
 
 

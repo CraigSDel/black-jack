@@ -13,22 +13,13 @@ import java.util.Stack;
 @Builder
 public class Player {
 
-    private PlayerType playerType;
     private Stack<Card> cards;
+    private String name;
 
-    public Integer calculateCardsValue() {
-        Integer value = 0;
-        Stack<Card> aces = new Stack<>();
-        for (Card card : cards) {
-            value += card.getValue().getHighestCardValue();
-            if (Suit.HEARTS.equals(card.getSuit())) {
-                aces.add(card);
-            }
+    public void addCard(Card card) {
+        if (cards == null) {
+            cards = new Stack<>();
         }
-        while (21 < value && 0 < aces.size()) {
-            value -= 10;
-            aces.pop();
-        }
-        return value;
+        cards.add(card);
     }
 }
