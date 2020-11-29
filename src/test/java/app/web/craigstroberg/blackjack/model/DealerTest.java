@@ -23,6 +23,14 @@ public class DealerTest {
     }
 
     @Test
+    void calculateDealersValue() {
+        Dealer dealer = new Dealer();
+        dealer.addCard(Card.builder().suit(Suit.CLUBS).value(Value.SIX).build());
+        dealer.addCard(Card.builder().suit(Suit.CLUBS).value(Value.NINE).build());
+        assertEquals(15, dealer.getCardValue());
+    }
+
+    @Test
     void calculateCardsValueWhenAPlayerHasJackAndANine() {
         Stack<Card> cards = new Stack<>();
         cards.add(Card.builder().suit(Suit.SPADES).value(Value.JACK).build());

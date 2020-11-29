@@ -37,6 +37,10 @@ public class Dealer {
         }
     }
 
+    public Integer getCardValue() {
+        return calculateCardsValue(this.dealersCards);
+    }
+
     public Integer calculateCardsValue(Stack<Card> cards) {
         Integer value = 0;
         Stack<Card> aces = new Stack<>();
@@ -53,4 +57,7 @@ public class Dealer {
         return value;
     }
 
+    public void addCard(Card card) {
+        dealersCards.add(card);
+    }
 }
