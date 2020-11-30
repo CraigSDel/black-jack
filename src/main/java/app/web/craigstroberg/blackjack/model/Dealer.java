@@ -15,6 +15,7 @@ import java.util.Stack;
 public class Dealer {
 
     public static final String TOO_MANY_PLAYERS = "There are too many players as each player will not be able to get two cards each";
+    public static final String OH_NO_THE_DECK_HAS_NO_MORE_CARDS = "Oh no... The deck has no more cards!";
 
     private Stack<Card> dealersCards = new Stack<>();
     private Deck deck = new Deck();
@@ -26,12 +27,14 @@ public class Dealer {
         //Dealer gets their first card
         dealersCards.add(deck.getCards().pop());
         //Each player gets their first card
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).addCard(deck.getCards().pop());
-        }
+        handOutCardToEachPlayer(players);
         //Dealer gets the second card
         dealersCards.add(deck.getCards().pop());
         //Each player gets their second card
+        handOutCardToEachPlayer(players);
+    }
+
+    private void handOutCardToEachPlayer(List<Player> players) {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).addCard(deck.getCards().pop());
         }
@@ -59,5 +62,13 @@ public class Dealer {
 
     public void addCard(Card card) {
         dealersCards.add(card);
+    }
+
+    public void handOutCard(Player player) {
+        Stack<Card> cards = deck.getCards();
+        if (0 < cards.size()) {
+            player.addCard(cards.pop());
+        }
+        throw new BlackJack21Exception(OH_NO_THE_DECK_HAS_NO_MORE_CARDS);
     }
 }

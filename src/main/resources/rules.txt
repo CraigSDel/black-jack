@@ -1,0 +1,13 @@
+.------..------..------..------..------..------..------..------..------..------..------.
+|B.--. ||L.--. ||A.--. ||C.--. ||K.--. ||J.--. ||A.--. ||C.--. ||K.--. ||2.--. ||1.--. |
+| :(): || :/\: || (\/) || :/\: || :/\: || :(): || (\/) || :/\: || :/\: || (\/) || :/\: |
+| ()() || (__) || :\/: || :\/: || :\/: || ()() || :\/: || :\/: || :\/: || :\/: || (__) |
+| '--'B|| '--'L|| '--'A|| '--'C|| '--'K|| '--'J|| '--'A|| '--'C|| '--'K|| '--'2|| '--'1|
+`------'`------'`------'`------'`------'`------'`------'`------'`------'`------'`------'
+
+Rules
+
+* Cards in hand are summed to determine the hand's value.
+* An ace can be equal to 1 or 11, based on the other cards in the hand. The goal is to not exceed 21.
+* Any player whose hand consists of 5 cards without the hand exceeding 21 automatically beats the dealer.
+* Players play against the dealer and not each other
