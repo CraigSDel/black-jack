@@ -21,7 +21,7 @@ public class Dealer {
 
     public void handOutCards(List<Player> players) {
         if (0 < players.size() && 25 < players.size()) {
-            throw new BlackJackException(TOO_MANY_PLAYERS);
+            throw new BlackJack21Exception(TOO_MANY_PLAYERS);
         }
         //Dealer gets their first card
         dealersCards.add(deck.getCards().pop());
@@ -46,7 +46,7 @@ public class Dealer {
         Stack<Card> aces = new Stack<>();
         for (Card card : cards) {
             value += card.getValue().getHighestCardValue();
-            if (Suit.HEARTS.equals(card.getSuit())) {
+            if (Value.ACE.equals(card.getValue())) {
                 aces.add(card);
             }
         }

@@ -11,11 +11,9 @@ public class BlackJack21 {
 
     private void play(int numberOfPlayers) {
         if (25 < numberOfPlayers) {
-            throw new BlackJackException(TOO_MANY_PLAYERS);
+            throw new BlackJack21Exception(TOO_MANY_PLAYERS);
         }
         players = new ArrayList<>(numberOfPlayers);
 
     }
-
-
 }
