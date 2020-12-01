@@ -14,14 +14,17 @@ import java.util.Stack;
 @Builder
 public class Dealer {
 
+    public static final String HERE_ARE_YOUR_CURRENT_CARDS = "Dealer here are your current cards.";
     public static final String TOO_MANY_PLAYERS = "There are too many players as each player will not be able to get two cards each";
     public static final String OH_NO_THE_DECK_HAS_NO_MORE_CARDS = "Oh no... The deck has no more cards!";
+    public static final int TWENTY_ONE = 21;
+    public static final int ZERO = 0;
 
     private Stack<Card> dealersCards = new Stack<>();
     private Deck deck = new Deck();
 
     public void handOutCards(List<Player> players) {
-        if (0 < players.size() && 25 < players.size()) {
+        if (ZERO < players.size() && 25 < players.size()) {
             throw new BlackJack21Exception(TOO_MANY_PLAYERS);
         }
         //Dealer gets their first card
@@ -35,7 +38,7 @@ public class Dealer {
     }
 
     private void handOutCardToEachPlayer(List<Player> players) {
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = ZERO; i < players.size(); i++) {
             players.get(i).addCard(deck.getCards().pop());
         }
     }
@@ -45,7 +48,7 @@ public class Dealer {
     }
 
     public Integer calculateCardsValue(Stack<Card> cards) {
-        Integer value = 0;
+        Integer value = ZERO;
         Stack<Card> aces = new Stack<>();
         for (Card card : cards) {
             value += card.getValue().getHighestCardValue();
@@ -53,7 +56,7 @@ public class Dealer {
                 aces.add(card);
             }
         }
-        while (21 < value && 0 < aces.size()) {
+        while (TWENTY_ONE < value && ZERO < aces.size()) {
             value -= 10;
             aces.pop();
         }
@@ -66,9 +69,17 @@ public class Dealer {
 
     public void handOutCard(Player player) {
         Stack<Card> cards = deck.getCards();
-        if (0 < cards.size()) {
+        if (ZERO < cards.size()) {
             player.addCard(cards.pop());
+        } else {
+            throw new BlackJack21Exception(OH_NO_THE_DECK_HAS_NO_MORE_CARDS);
         }
-        throw new BlackJack21Exception(OH_NO_THE_DECK_HAS_NO_MORE_CARDS);
+    }
+
+    public void printCards() {
+        System.out.println(HERE_ARE_YOUR_CURRENT_CARDS);
+        for (Card card : dealersCards) {
+            System.out.println(card.toString());
+        }
     }
 }
