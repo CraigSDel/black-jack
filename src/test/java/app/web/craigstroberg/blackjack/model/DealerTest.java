@@ -114,6 +114,26 @@ public class DealerTest {
         assertEquals(25, actual);
     }
 
+    @Test
+    void playerShouldWinAsTheir5CardsAreLessThan21() {
+        Stack<Card> cards = new Stack<>();
+        cards.add(Card.builder().suit(Suit.SPADES).value(Value.TWO).build());
+        cards.add(Card.builder().suit(Suit.DIAMONDS).value(Value.TWO).build());
+        cards.add(Card.builder().suit(Suit.HEARTS).value(Value.TWO).build());
+        cards.add(Card.builder().suit(Suit.DIAMONDS).value(Value.FOUR).build());
+        cards.add(Card.builder().suit(Suit.CLUBS).value(Value.FIVE).build());
+        Player player = Player.builder()
+                .cards(cards)
+                .name("Billy")
+                .build();
+        Dealer dealerWithCards = getDealerWithCards();
+        Integer actual = dealerWithCards
+                .calculateCardsValue(player.getCards());
+        assertNotNull(actual);
+        assertEquals(15, actual);
+        assertEquals(player.getName() + PLAYER_WON_MESSAGE, dealerWithCards.getWinner(player));
+    }
+
     private Dealer getDealerWithCards() {
         Dealer dealer = new Dealer();
         dealer.addCard(Card.builder().suit(Suit.CLUBS).value(Value.JACK).build());

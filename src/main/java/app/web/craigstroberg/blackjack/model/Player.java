@@ -30,24 +30,4 @@ public class Player {
             System.out.println(card.toString());
         }
     }
-
-    public Boolean doIWantACard(Stack<Card> cards) {
-        Integer value = 0;
-        Stack<Card> aces = new Stack<>();
-        for (Card card : cards) {
-            value += card.getValue().getHighestCardValue();
-            if (Value.ACE.equals(card.getValue())) {
-                aces.add(card);
-            }
-        }
-        while (21 < value && 0 < aces.size()) {
-            value -= 10;
-            aces.pop();
-        }
-        if (value < 21) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

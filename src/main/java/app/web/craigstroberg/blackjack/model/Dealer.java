@@ -101,6 +101,10 @@ public class Dealer {
         System.out.println(NEW_LINE + DEALERS_HAND_EQUALS + dealersCardValue
                 + NEW_LINE + PLAYERS_HAND_EQUALS + playerCardValue);
 
+        if (player.getCards().size() >= 5 & playerCardValue < TWENTY_ONE) {
+            return player.getName() + PLAYER_WON_MESSAGE;
+        }
+
         if (dealersCardValue > TWENTY_ONE) {
             return THE_DEALER_IS_OUT_OF_THIS_ROUND;
         }

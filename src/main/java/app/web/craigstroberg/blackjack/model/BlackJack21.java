@@ -32,97 +32,8 @@ public class BlackJack21 {
 
     public static void main(String[] args) {
         printOutRulesFromFile();
-        Scanner sc = new Scanner(System.in);
-        int numberOfPlayers = getNumberOfPlayers(sc);
-
-        Dealer dealer = new Dealer();
-        List<Player> players = new ArrayList<>();
-
-        for (int j = 0; j < numberOfPlayers; j++) {
-            System.out.println(PLAYER + (j + 1) + PLEASE_ENTER_YOUR_NAME);
-            String playerName = sc.next();
-            if (BLANK_STRING.equals(playerName) || playerName.length() < 3) {
-                System.out.println(SHORTER_THAN_3_CHARACTERS_PLEASE_TRY_AGAIN);
-                playerName = sc.next();
-            }
-            players.add(Player.builder()
-                    .name(playerName)
-                    .build());
-        }
-
-        dealer.handOutCards(players);
-        dealer.printTopCard();
-
-        boolean keepPlaying = true;
-        int currentPlayerIndex = 0;
-        while (keepPlaying) {
-            Player currentPlayer = players.get(currentPlayerIndex);
-            currentPlayer.printCards();
-            System.out.println(currentPlayer.getName() + ANOTHER_CARD);
-            String anotherCard = sc.next();
-            if (Y.equalsIgnoreCase(anotherCard) || YES.equalsIgnoreCase(anotherCard)) {
-                dealer.handOutCard(currentPlayer);
-                Integer calculateCardsValue = dealer.calculateCardsValue(currentPlayer.getCards());
-                if (TWENTY_ONE < calculateCardsValue) {
-                    players.remove(currentPlayer);
-                    System.out.println(SORRY_YOUR_CARDS_VALUE_IS_NOW + calculateCardsValue + NEXT_GAME);
-                }
-                System.out.println(NEW_LINE);
-                currentPlayer.printCards();
-            }
-            if (players.size() == 0) {
-                keepPlaying = false;
-            } else {
-                currentPlayerIndex++;
-
-                if (players.size() == currentPlayerIndex) {
-                    System.out.println(GET_WINNER_MESSAGE);
-                    String endGame = sc.next();
-                    if (Y.equalsIgnoreCase(endGame) || YES.equalsIgnoreCase(endGame)) {
-                        keepPlaying = false;
-                        dealer.printCards();
-                        findWinnersAgainstTheDealer(dealer, players);
-                    }
-                    currentPlayerIndex = 0;
-                }
-            }
-        }
-    }
-
-    private static int getNumberOfPlayers(Scanner sc) {
-        boolean invalid = true;
-        int numberOfPlayers = 0;
-        do {
-            try {
-                System.out.println(HOW_MANY_PLAYERS);
-                numberOfPlayers = sc.nextInt();
-                if (25 < numberOfPlayers) {
-                    numberOfPlayers = 0;
-                    System.out.println(TOO_MANY_PLAYERS);
-                } else {
-                    invalid = false;
-                }
-                if (invalid) {
-                    System.out.println(PLEASE_ENTER_A_VALID_NUMBER);
-                }
-            } catch (Exception e) {
-                sc.next();
-            }
-        } while (invalid);
-        return numberOfPlayers;
-    }
-
-    private static void findWinnersAgainstTheDealer(Dealer dealer, List<Player> players) {
-        if (dealer.getCardValue() > TWENTY_ONE) {
-            System.out.println(DEALERS_HAND_IS_BIGGER_THAN_21);
-        }
-        for (int i = 0; i < players.size(); i++) {
-            System.out.println(NEW_LINE);
-            System.out.println(LINE_BREAK);
-            Player player = players.get(i);
-            player.printCards();
-            dealer.getWinner(player);
-        }
+        BlackJack21 blackJack21 = new BlackJack21();
+        blackJack21.play();
     }
 
     private static void printOutRulesFromFile() {
@@ -138,5 +49,116 @@ public class BlackJack21 {
             System.out.println(AN_ERROR_OCCURRED);
             e.printStackTrace();
         }
+    }
+
+    private void findWinnersAgainstTheDealer(Dealer dealer, List<Player> players) {
+        if (dealer.getCardValue() > TWENTY_ONE) {
+            System.out.println(DEALERS_HAND_IS_BIGGER_THAN_21);
+        }
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println(NEW_LINE);
+            System.out.println(LINE_BREAK);
+            Player player = players.get(i);
+            player.printCards();
+            dealer.getWinner(player);
+        }
+    }
+
+    private List<Player> getPlayers() {
+        int numberOfPlayers = this.getNumberOfPlayers();
+        List<Player> players = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        for (int j = 0; j < numberOfPlayers; j++) {
+            System.out.println(PLAYER + (j + 1) + PLEASE_ENTER_YOUR_NAME);
+            String playerName = sc.next();
+            if (BLANK_STRING.equals(playerName) || playerName.length() < 3) {
+                System.out.println(SHORTER_THAN_3_CHARACTERS_PLEASE_TRY_AGAIN);
+                playerName = sc.next();
+            }
+            players.add(Player.builder()
+                    .name(playerName)
+                    .build());
+        }
+        return players;
+    }
+
+    private void play() {
+        Dealer dealer = new Dealer();
+        List<Player> players = getPlayers();
+        dealer.handOutCards(players);
+        dealer.printTopCard();
+
+        boolean keepPlaying = true;
+        int currentPlayerIndex = 0;
+        while (keepPlaying) {
+            Player currentPlayer = players.get(currentPlayerIndex);
+            currentPlayer.printCards();
+            System.out.println(currentPlayer.getName() + ANOTHER_CARD);
+            if (doesThePlayerWantAnotherCard()) {
+                dealer.handOutCard(currentPlayer);
+                Integer calculateCardsValue = dealer.calculateCardsValue(currentPlayer.getCards());
+                if (TWENTY_ONE < calculateCardsValue) {
+                    players.remove(currentPlayer);
+                    System.out.println(SORRY_YOUR_CARDS_VALUE_IS_NOW + calculateCardsValue + NEXT_GAME);
+                } else if (5 <= currentPlayer.getCards().size()) {
+                    dealer.getWinner(currentPlayer);
+                    players.remove(currentPlayer);
+                }
+                System.out.println(NEW_LINE);
+                currentPlayer.printCards();
+            }
+
+            if (players.size() == 0) {
+                keepPlaying = false;
+            } else {
+                currentPlayerIndex++;
+
+                if (players.size() == currentPlayerIndex) {
+                    System.out.println(GET_WINNER_MESSAGE);
+                    Scanner sc = new Scanner(System.in);
+                    String endGame = sc.next();
+                    if (Y.equalsIgnoreCase(endGame) || YES.equalsIgnoreCase(endGame)) {
+                        keepPlaying = false;
+                        dealer.printCards();
+                        findWinnersAgainstTheDealer(dealer, players);
+                    }
+                    currentPlayerIndex = 0;
+                }
+            }
+        }
+        System.exit(1);
+    }
+
+    private boolean doesThePlayerWantAnotherCard() {
+        Scanner sc = new Scanner(System.in);
+        String anotherCard = sc.next();
+        if (Y.equalsIgnoreCase(anotherCard) || YES.equalsIgnoreCase(anotherCard)) {
+            return true;
+        }
+        return false;
+    }
+
+    public int getNumberOfPlayers() {
+        Scanner numberOfPlayersInput = new Scanner(System.in);
+        boolean invalid = true;
+        int numberOfPlayers = 0;
+        do {
+            try {
+                System.out.println(HOW_MANY_PLAYERS);
+                numberOfPlayers = numberOfPlayersInput.nextInt();
+                if (25 < numberOfPlayers) {
+                    numberOfPlayers = 0;
+                    System.out.println(TOO_MANY_PLAYERS);
+                } else {
+                    invalid = false;
+                }
+                if (invalid) {
+                    System.out.println(PLEASE_ENTER_A_VALID_NUMBER);
+                }
+            } catch (Exception e) {
+                numberOfPlayersInput.next();
+            }
+        } while (invalid);
+        return numberOfPlayers;
     }
 }
