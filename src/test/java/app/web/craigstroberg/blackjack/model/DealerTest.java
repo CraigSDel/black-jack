@@ -14,6 +14,7 @@ public class DealerTest {
     public static final String IT_IS_A_DRAW = "It is a draw!";
     public static final String PLAYER_WON_MESSAGE = " you won against the dealer! Winner Winner Chicken Dinner :) ";
     public static final String DEALER_WINS_THIS_ROUND = "Dealer wins this round!";
+    public static final String OH_NO_YOUR_CARDS_VALUES_ARE_BIGGER_THAN_21 = "Oh no your cards values are bigger than 21";
 
     @Test
     public void handOutCards() {
@@ -29,7 +30,7 @@ public class DealerTest {
     @Test
     public void calculateDealersValue() {
         Dealer dealer = getDealerWithCards();
-        assertEquals(15, dealer.getCardValue());
+        assertEquals(19, dealer.getCardValue());
     }
 
     @Test
@@ -62,7 +63,9 @@ public class DealerTest {
         Integer actual = dealerWithCards.calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(19, actual);
-        assertEquals(IT_IS_A_DRAW, dealerWithCards.getWinner(player));
+        String winner = dealerWithCards.getWinner(player);
+        System.out.println(winner);
+        assertEquals(IT_IS_A_DRAW, winner);
     }
 
     @Test
@@ -79,7 +82,9 @@ public class DealerTest {
         Integer actual = dealerWithCards.calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(18, actual);
-        assertEquals(DEALER_WINS_THIS_ROUND, dealerWithCards.getWinner(player));
+        String winner = dealerWithCards.getWinner(player);
+        System.out.println(winner);
+        assertEquals(DEALER_WINS_THIS_ROUND, winner);
     }
 
     @Test
@@ -94,9 +99,13 @@ public class DealerTest {
                 .cards(cards)
                 .name("Billy")
                 .build();
-        Integer actual = new Dealer().calculateCardsValue(player.getCards());
+        Dealer dealerWithCards = getDealerWithCards();
+        Integer actual = dealerWithCards.calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(15, actual);
+        String winner = dealerWithCards.getWinner(player);
+        System.out.println(winner);
+        assertEquals(player.getName() + PLAYER_WON_MESSAGE, winner);
     }
 
     @Test
@@ -109,9 +118,13 @@ public class DealerTest {
                 .cards(cards)
                 .name("Carla")
                 .build();
-        Integer actual = new Dealer().calculateCardsValue(player.getCards());
+        Dealer dealerWithCards = getDealerWithCards();
+        Integer actual = dealerWithCards.calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(25, actual);
+        String winner = dealerWithCards.getWinner(player);
+        System.out.println(winner);
+        assertEquals(OH_NO_YOUR_CARDS_VALUES_ARE_BIGGER_THAN_21, winner);
     }
 
     @Test
@@ -131,13 +144,15 @@ public class DealerTest {
                 .calculateCardsValue(player.getCards());
         assertNotNull(actual);
         assertEquals(15, actual);
-        assertEquals(player.getName() + PLAYER_WON_MESSAGE, dealerWithCards.getWinner(player));
+        String winner = dealerWithCards.getWinner(player);
+        System.out.println(winner);
+        assertEquals(player.getName() + PLAYER_WON_MESSAGE, winner);
     }
 
     private Dealer getDealerWithCards() {
         Dealer dealer = new Dealer();
-        dealer.addCard(Card.builder().suit(Suit.CLUBS).value(Value.JACK).build());
-        dealer.addCard(Card.builder().suit(Suit.CLUBS).value(Value.NINE).build());
+        dealer.addCard(Card.builder().value(Value.JACK).suit(Suit.SPADES).build());
+        dealer.addCard(Card.builder().value(Value.NINE).suit(Suit.HEARTS).build());
         return dealer;
     }
 }

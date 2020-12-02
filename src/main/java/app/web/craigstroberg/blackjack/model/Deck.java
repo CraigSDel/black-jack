@@ -1,11 +1,15 @@
 package app.web.craigstroberg.blackjack.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Collections;
 import java.util.Stack;
 
 @Data
+@AllArgsConstructor
+@Builder
 public class Deck {
 
     public static final String PLEASE_ENTER_A_VALID_CARD_INDEX_0 = "Please enter a valid card index 0 -> ";

@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Stack;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Dealer {
 
     public static final String HERE_ARE_YOUR_CURRENT_CARDS = "Dealer here are your current cards.";
@@ -30,6 +28,10 @@ public class Dealer {
 
     private Stack<Card> dealersCards = new Stack<>();
     private Deck deck = new Deck();
+
+    public Dealer(Deck deck) {
+        this.deck = deck;
+    }
 
     public void handOutCards(List<Player> players) {
         if (0 < players.size() && 25 < players.size()) {
