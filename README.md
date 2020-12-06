@@ -1,7 +1,5 @@
 # black-jack
 
-To run the game you need to run the BlackJack21
-
 There are test cases  
 
 ---
